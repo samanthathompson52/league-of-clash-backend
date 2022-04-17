@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const path = __dirname + '/app/views/';
 const cors = require("cors");
 const app = express();
+const axios = require("axios");
 
 const corsOptions = {
   origin: "http://localhost:8081"
@@ -19,10 +20,27 @@ app.get('/', (req, res) => {
 
 app.get('/helloWorld', (req, res) => {
   console.log("Request recieved!")
-  res.status(200).send({message: "Hello World"});
+  let data = leagueAPI();
+  res.status(200).send({message: data});
 });
   
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+
+function leagueAPI(){
+  axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Samaara`)
+  .then(response => {
+    console.log("leagueAPI");
+    // JSON responses are automatically parsed.
+      this.posts = response.data
+      console.log(response);
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+
+  return 10;
+};
